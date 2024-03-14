@@ -1,0 +1,24 @@
+{
+   "tableName":"Calcs",
+   "segmentsConfig":{
+      "segmentAssignmentStrategy":"BalanceNumSegmentAssignmentStrategy",
+      "segmentPushType":"APPEND",
+      "schemaName":"Calcs",
+      "replication":1
+   },
+   "tableIndexConfig":{
+      "invertedIndexColumns":[
+
+      ],
+      "loadMode":"MMAP",
+      "nullHandlingEnabled":true
+   },
+   "tenants":{
+      "broker":"DefaultTenant",
+      "server":"DefaultTenant"
+   },
+   "tableType":"OFFLINE",
+   "metadata":{
+      "customConfigs":{}
+   }
+}

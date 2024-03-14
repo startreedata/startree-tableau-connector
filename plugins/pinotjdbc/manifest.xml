@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!--
+
+    Copyright 2021 StarTree Inc. All rights reserved. Confidential and Proprietary Information of StarTree Inc.
+
+-->
+<connector-plugin class='pinot' superclass='jdbc' plugin-version='1.0.0' name='Apache Pinot' version='18.1' min-version-tableau='2021.1'>
+  <vendor-information>
+      <company name="StarTree"/>
+      <support-link url="https://github.com/apache/pinot/issues"/>
+      <driver-download-link url="https://repo1.maven.org/maven2/org/apache/pinot/pinot-jdbc-client/0.11.0/pinot-jdbc-client-0.11.0-shaded.jar"/>
+  </vendor-information>
+  <connection-customization class="pinot" enabled="true" version="10.0">
+    <vendor name="StarTree"/>
+    <driver name="Apache Pinot JDBC"/>
+    <customizations>
+      <customization name="CAP_SUPPORTS_INITIAL_SQL" value="no" />
+      <customization name="CAP_SELECT_INTO" value="yes"/>
+      <customization name="CAP_SELECT_TOP_INTO" value="yes"/>
+      <customization name="CAP_CREATE_TEMP_TABLES" value="no"/>
+      <customization name="CAP_QUERY_BOOLEXPR_TO_INTEXPR" value="no"/>
+      <customization name="CAP_QUERY_GROUP_BY_ALIAS" value="yes"/>
+      <customization name="CAP_QUERY_GROUP_BY_BOOL" value="yes"/>
+      <customization name="CAP_QUERY_GROUP_BY_DEGREE" value="no"/>
+      <customization name="CAP_QUERY_SORT_BY" value="yes"/>
+      <customization name="CAP_QUERY_SUBQUERIES" value="yes"/>
+      <customization name="CAP_QUERY_TOP_N" value="yes"/>
+      <customization name="CAP_QUERY_TOP_SAMPLE" value="yes"/>
+      <customization name="CAP_QUERY_TOP_SAMPLE_PERCENT" value="yes"/>
+      <customization name="CAP_QUERY_WHERE_FALSE_METADATA" value="yes"/>
+      <customization name="CAP_QUERY_SUBQUERIES_WITH_TOP" value="no"/>
+      <customization name="CAP_SUPPORTS_SPLIT_FROM_LEFT" value="yes"/>
+      <customization name="CAP_SUPPORTS_SPLIT_FROM_RIGHT" value="yes"/>
+      <customization name="CAP_SUPPORTS_UNION" value="no"/>
+      <customization name="CAP_QUERY_ALLOW_PARTIAL_AGGREGATION" value="no"/>
+      <customization name="CAP_QUERY_TIME_REQUIRES_CAST" value="yes"/>
+      <customization name="CAP_JDBC_BIND_BIGDECIMAL_STRING" value="yes"/>
+      <customization name="CAP_QUERY_BOOL_IDENTIFIER_TO_LOGICAL" value="no"/>
+      <customization name="CAP_QUERY_FROM_REQUIRES_ALIAS" value="no"/>
+      <customization name="CAP_QUERY_INCLUDE_GROUP_BY_COLUMNS_IN_SELECT" value="yes"/>
+      <customization name="CAP_QUERY_HAVING_UNSUPPORTED" value="no"/>
+      <customization name="CAP_QUERY_HAVING_REQUIRES_GROUP_BY" value="no"/>
+    </customizations>
+  </connection-customization>
+  <connection-fields file='connectionFields.xml'/>
+  <connection-metadata file='connectionMetadata.xml'/>
+  <connection-resolver file="connectionResolver.tdr"/>
+  <dialect file='dialect.tdd'/>
+</connector-plugin>

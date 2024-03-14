@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+    Copyright 2021 StarTree Inc. All rights reserved. Confidential and Proprietary Information of StarTree Inc.
+
+-->
+<connection-fields>
+  <!-- General tab -->
+  <field name="server" label="Controller Host" value-type="string" category="endpoint" placeholder="Enter controller hostname">
+    <!-- Validate hostname -->
+    <validation-rule reg-exp="^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$"/>
+  </field>
+
+  <field name="port" label="Controller Port" value-type="string" category="endpoint" default-value="9000" placeholder="Enter port number" >
+    <!-- Validate port range -->
+    <validation-rule reg-exp="^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$"/>
+  </field>
+
+  <field name="authentication" label="Authentication" category="authentication" value-type="selection" default-value="auth-none">
+    <selection-group>
+      <option value="auth-none" label="None"/>
+      <option value="auth-user-pass" label="Basic Authentication"/>
+    </selection-group>
+  </field>
+
+  <field name="username" label="Username" category="authentication" value-type="string" placeholder="Enter username">
+    <conditions>
+      <condition field="authentication" value="auth-user-pass"/>
+    </conditions>
+  </field>
+
+  <field name="password" label="Password" category="authentication" value-type="string" secure="true" placeholder="Enter password">
+    <conditions>
+      <condition field="authentication" value="auth-user-pass"/>
+    </conditions>
+  </field>
+
+  <field name="v-tenant" label="Tenant" value-type="string" category="general" default-value="DefaultTenant" placeholder="Enter tenant name" />
+
+  <!-- Advanced tab -->
+  <field name="v-scheme" label="Scheme" value-type="selection" category="advanced" default-value="http" optional="true">
+    <selection-group>
+      <option value="http" label="HTTP"/>
+      <option value="https" label="HTTPS"/>
+    </selection-group>
+  </field>
+  
+  <field name="v-controller-tls" label="Enable TLS for Controller" value-type="boolean" category="advanced" default-value="false" optional="true">
+    <boolean-options>
+      <false-value value="false" />
+      <true-value value="true" />
+    </boolean-options>
+  </field>
+  
+  <field name="v-broker-tls" label="Enable TLS for Brokers" value-type="boolean" category="advanced" default-value="false" optional="true">
+    <boolean-options>
+      <false-value value="false" />
+      <true-value value="true" />
+    </boolean-options>
+  </field>
+  
+  <field name="v-additional-properties" label="Additional Properties" value-type="textbox" category="advanced" placeholder="Optional - Enter additional properties as key=value pairs on separate lines" optional="true" />
+
+</connection-fields>

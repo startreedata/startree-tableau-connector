@@ -1,0 +1,24 @@
+{
+   "tableName":"Staples",
+   "segmentsConfig":{
+      "segmentAssignmentStrategy":"BalanceNumSegmentAssignmentStrategy",
+      "segmentPushType":"APPEND",
+      "schemaName":"Staples",
+      "replication":1
+   },
+   "tableIndexConfig":{
+      "invertedIndexColumns":[
+
+      ],
+      "loadMode":"MMAP",
+      "nullHandlingEnabled":true
+   },
+   "tenants":{
+      "broker":"DefaultTenant",
+      "server":"DefaultTenant"
+   },
+   "tableType":"OFFLINE",
+   "metadata":{
+      "customConfigs":{}
+   }
+}

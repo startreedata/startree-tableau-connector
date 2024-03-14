@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright 2021 StarTree Inc. All rights reserved. Confidential and Proprietary Information of StarTree Inc.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>pom</packaging>
+
+  <parent>
+    <artifactId>startree-pinot-connectors</artifactId>
+    <groupId>ai.startree.pinot</groupId>
+    <version>${revision}</version>
+  </parent>
+
+  <artifactId>startree-tableau-connector</artifactId>
+  <name>StarTree Tableau Connector</name>
+  <url>https://startree.ai/</url>
+
+  <properties>
+    <pinot.root>${basedir}/../..</pinot.root>
+    <connector.assembly.name>${project.groupId}-${project.version}</connector.assembly.name>
+    <taco.signing.keystore>taco.jks</taco.signing.keystore>
+    <taco.signing.alias>alias</taco.signing.alias>
+    <taco.signing.storepass>storepass</taco.signing.storepass>
+    <taco.signing.keypass></taco.signing.keypass>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>${connector.assembly.name}</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>taco-assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+         </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-jarsigner-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sign</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <keystore>${taco.signing.keystore}</keystore>
+          <alias>${taco.signing.alias}</alias>
+          <storepass>${taco.signing.storepass}</storepass>
+          <keypass>${taco.signing.keypass}</keypass>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <move file="${project.build.directory}/${connector.assembly.name}.jar" tofile="${project.build.directory}/${connector.assembly.name}.taco" />
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>
