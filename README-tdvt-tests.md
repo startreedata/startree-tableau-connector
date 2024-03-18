@@ -9,6 +9,7 @@
     - Follow _Setup_ section [here](https://tableau.github.io/connector-plugin-sdk/docs/tdvt), skipping steps 3 & 5
 
 ## 2. Start Pinot and populate with the test data
+- Set machine timezone to UTC. Without this almost all time based tests will fail
 - Set the PINOT_PATH environment variable to your pinot build directory, something like ~/projects/startree/pinot/build
 - Start the Pinot Servers
 	- start and stop_pinot.sh scripts are included
@@ -33,6 +34,12 @@
 - cd into the `test` directory
 - Execute `python3 -m tdvt.tdvt run pinotdb --generate`
 - Results are saved in `test_results_combined.csv`
+
+
+## Running tests for V2 query engine
+- Replace the `dialect.tdd` file with `dialectV2.tdd` file
+- Add `&useMultistageEngine=true` to the JDBC URL in the `connectionBuilder.js` file
+- Rest all steps are same as above. No need to restart the Pinot servers or put data again.
 
 ## Notes
 - For most of the time based tests to pass, the Pinot host must be in the UTC timezone
