@@ -1,7 +1,8 @@
 # Contributor License Agreement (“Agreement”)
 
 
-Thank you for your interest in the startree-tableau-connector open source project at https://github.com/startreedata/startree-tableau-connector stewarded by StarTree, Inc. (**StarTree**), with offices at _________________. The form of license below is a document that clarifies the terms under which You, the person listed below, may contribute software code described below (the “Contribution”) to the project.  We appreciate your participation in our project, and your help in improving our products, so we want you to understand what will be done with the Contributions.  This license is for your protection as well as the protection of StarTree and its licensees; it does not change your rights to use your own Contributions for any other purpose.
+Thank you for your interest in the startree-tableau-connector open source project at https://github.com/startreedata/startree-tableau-connector stewarded by StarTree, Inc. (**StarTree**), with offices at 278 Castro St, Mountain View, CA, 94041,
+ USA. The form of license below is a document that clarifies the terms under which You, the person listed below, may contribute software code described below (the “Contribution”) to the project.  We appreciate your participation in our project, and your help in improving our products, so we want you to understand what will be done with the Contributions.  This license is for your protection as well as the protection of StarTree and its licensees; it does not change your rights to use your own Contributions for any other purpose.
 
 By [agreeing to this Agreement via our CLA Assistant on GITHUB], You hereby agree:
 
