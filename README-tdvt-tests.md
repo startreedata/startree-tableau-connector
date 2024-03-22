@@ -45,3 +45,15 @@
 - For most of the time based tests to pass, the Pinot host must be in the UTC timezone
 - If the start/stop_pinot.sh scripts are not used to run Pinot, be sure Pinot is configured with
     - `pinot.server.instance.currentDataTableVersion=4`
+
+## Current TDVT Results
+
+| Metric          | V1 Query Engine | V2 Query Engine |
+|-----------------|-----------------|-----------------|
+| Test Count      | 863             | 863             |
+| Passed tests    | 781             | 754             |
+| Failed tests    | 82              | 109             |
+| Tests run       | 863             | 863             |
+| Disabled tests  | 0               | 0               |
+| Skipped tests   | 0               | 0               |
+
