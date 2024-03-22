@@ -46,7 +46,7 @@
 - If the start/stop_pinot.sh scripts are not used to run Pinot, be sure Pinot is configured with
     - `pinot.server.instance.currentDataTableVersion=4`
 
-## Current TDVT Results
+## Current TDVT Test Results
 
 | Metric          | V1 Query Engine | V2 Query Engine |
 |-----------------|-----------------|-----------------|
