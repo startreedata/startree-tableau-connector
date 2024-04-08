@@ -5,14 +5,18 @@ This is the Tableau Connector for [Startree Pinot](https://startree.ai).
 We are working on making this connector available in the Tableau Exchange. For now, the connector can be installed and used as follows.
 
 ## Installation & Usage
+* Pinot setup requires JDK 11 and Maven 3.6
 
-* Download the latest version of official JDBC driver (the .jar file) from [maven repository](https://mvnrepository.com/artifact/org.apache.pinot/pinot-jdbc-client)
+* Download the driver jars. When using Pinot 1.0.0, the driver versions below will be needed
+    - async-http-client-2.12.3.jar
+    - calcite-core-1.30.0.jar
+    - [pinot-jdbc-client-1.0.0-hotfix-shaded.jar](https://mvnrepository.com/artifact/org.apache.pinot/pinot-jdbc-client)
 
-* Copy the JDBC driver jar to the Tableau drivers directory
+* Copy the driver to the Tableau drivers directory
     - On Mac: `~/Library/Tableau/Drivers/`
     - On Windows: `C:\Program Files\Tableau\Drivers`
 
-* Clone this repository
+* Fork this repository
 
 * Exec `mvn package` in this directory to build the connector. The `.taco` file will be in the `target` subdirectory. 
 
