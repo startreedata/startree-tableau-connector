@@ -6,7 +6,7 @@ We are working on making this connector available in the Tableau Exchange. For n
 
 ## Installation & Usage
 
-* Download the latest version of official JDBC driver (the .jar file) from [maven repository](https://mvnrepository.com/artifact/org.apache.pinot/pinot-jdbc-client)
+* Download the latest version of official driver (the .jar file) from [maven repository](https://mvnrepository.com/artifact/org.apache.pinot/pinot-jdbc-client)
 
 * Copy the JDBC driver jar to the Tableau drivers directory
     - On Mac: `~/Library/Tableau/Drivers/`
