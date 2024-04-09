@@ -50,10 +50,10 @@
 
 | Metric          | V1 Query Engine | V2 Query Engine |
 |-----------------|-----------------|-----------------|
-| Test Count      | 863             | 863             |
-| Passed tests    | 781             | 754             |
-| Failed tests    | 82              | 109             |
-| Tests run       | 863             | 863             |
+| Test Count      | 865             | 863             |
+| Passed tests    | 810             | 754             |
+| Failed tests    | 55              | 109             |
+| Tests run       | 865             | 863             |
 | Disabled tests  | 0               | 0               |
 | Skipped tests   | 0               | 0               |
 
