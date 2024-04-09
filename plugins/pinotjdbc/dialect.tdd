@@ -195,15 +195,15 @@
       <argument type='real' />
     </function>
     <function group='string' name='LEN' return-type='int'>
-      <formula>LENGTH(CAST(%1 AS VARCHAR))</formula>
+      <formula>LENGTH(CAST(%1 AS STRING))</formula>
       <argument type='str' />
     </function>
     <function group='string' name='LOWER' return-type='str'>
-      <formula>LOWER(CAST(%1 AS VARCHAR))</formula>
+      <formula>LOWER(CAST(%1 AS STRING))</formula>
       <argument type='str' />
     </function>
     <function group='string' name='LTRIM' return-type='str'>
-      <formula>LTRIM(CAST(%1 AS VARCHAR))</formula>
+      <formula>LTRIM(CAST(%1 AS STRING))</formula>
       <argument type='str' />
     </function>
     <function group='string' name='MAX' return-type='str'>
@@ -379,7 +379,7 @@
       <argument type='str' />
     </function>
     <function group='cast' name='INT' return-type='int'>
-      <formula>ToEpochDays(%1)</formula>
+      <formula>ROUND_DECIMAL(CAST(((%1) - FROMDATETIME('1900-01-01', 'yyyy-MM-dd'))/86400000 AS FLOAT))</formula>
       <argument type='datetime' />
     </function>
     <function group='cast' name='STR' return-type='str'>
@@ -387,11 +387,11 @@
       <argument type='bool' />
     </function>
     <function group='cast' name='STR' return-type='str'>
-      <formula>CAST(%1 AS VARCHAR)</formula>
+      <formula>CAST(%1 AS STRING)</formula>
       <argument type='real' />
     </function>
     <function group='cast' name='STR' return-type='str'>
-      <formula>CAST(%1 AS VARCHAR)</formula>
+      <formula>CAST(%1 AS STRING)</formula>
       <argument type='str' />
     </function>
     <function group='cast' name='STR' return-type='str'>
@@ -461,7 +461,7 @@
       <argument type='int' />
     </function>
     <function group='logical' name='IIF' return-type='str'>
-      <formula>(CASE WHEN %1 THEN %2 WHEN NOT %1 THEN %3 ELSE 'NULL' END)</formula>
+      <formula>(CASE WHEN %1 THEN %2 WHEN NOT %1 THEN %3 ELSE NULL END)</formula>
       <argument type='bool' />
       <argument type='str' />
       <argument type='str' />
@@ -769,7 +769,7 @@
       <argument type='real' />
     </function>
     <function group='operator' name='-' return-type='real'>
-      <formula>(cast (%1 as bigint) - cast (%2 as bigint)) / (1000.0 * 60 * 60 * 24)</formula>
+      <formula>((FROMDATETIME(CAST(CAST(%1 AS TIMESTAMP) AS STRING),'yyyy-MM-dd HH:mm:ss.S') - FROMDATETIME(CAST(CAST(%2 AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss.S')) / (1000.0 * 60 * 60 * 24))</formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -783,12 +783,12 @@
       <argument type='int' />
     </function>
     <function group='operator' name='-' return-type='datetime'>
-      <formula>CAST(ADD(%1, -1 * times(%2, 86400000)) AS TIMESTAMP)</formula>
+      <formula>CAST((%1 - times(%2, 86400000)) AS TIMESTAMP)</formula>
       <argument type='datetime' />
       <argument type='real' />
     </function>
     <function group='operator' name='-' return-type='date'>
-      <formula>CAST(ADD(%1, -1 * times(%2, 86400000)) AS TIMESTAMP)</formula>
+      <formula>CAST(%1 - times(%2, 86400000) AS TIMESTAMP)</formula>
       <argument type='date' />
       <argument type='int' />
     </function>
@@ -888,7 +888,7 @@
       <argument type='bool' />
     </function>
     <date-function name='DATEADD' return-type='datetime'>
-      <formula>ToDateTime(TIMESTAMPADD(%1, %2, %3), 'yyyy-MM-dd HH:mm:ss')</formula>
+      <formula>CAST(TIMESTAMPADD(%1, %2, %3) AS TIMESTAMP)</formula>
       <argument type='localstr' />
       <argument type='int' />
       <argument type='datetime' />
@@ -916,63 +916,63 @@
       <argument type='localstr' />
     </date-function>
     <date-function name='DATENAME' return-type='str'>
-      <formula part='year'>CAST(YEAR(%2) AS VARCHAR)</formula>
-      <formula part='quarter'>CAST(QUARTER(%2) AS VARCHAR)</formula>
-      <formula part='month'>CAST(MONTH(%2) AS VARCHAR)</formula>
-      <formula part='dayofyear'>CAST(DAYOFYEAR(%2) AS VARCHAR)</formula>
-      <formula part='day'>CAST(DAY(%2) AS VARCHAR)</formula>
+      <formula part='year'>CAST(YEAR(%2) AS STRING)</formula>
+      <formula part='quarter'>CAST(QUARTER(%2) AS STRING)</formula>
+      <formula part='month'>CAST(MONTH(%2) AS STRING)</formula>
+      <formula part='dayofyear'>CAST(DAYOFYEAR(%2) AS STRING)</formula>
+      <formula part='day'>CAST(DAY(%2) AS STRING)</formula>
       <formula part='weekday'>TODATETIME(%2, 'EEEE')</formula>
-      <formula part='week'>CAST(CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + DAYOFWEEK(DATETRUNC('YEAR', %2))) / 7) AS INT) AS VARCHAR)</formula>
-      <formula part='hour'>CAST(HOUR(%2) AS VARCHAR)</formula>
-      <formula part='minute'>CAST(MINUTE(%2) AS VARCHAR)</formula>
-      <formula part='second'>CAST(SECOND(%2) AS VARCHAR)</formula>
+      <formula part='week'>CAST(CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + DAYOFWEEK(DATE_TRUNC('YEAR', %2))) / 7) AS INT) AS STRING)</formula>
+      <formula part='hour'>CAST(HOUR(%2) AS STRING)</formula>
+      <formula part='minute'>CAST(MINUTE(%2) AS STRING)</formula>
+      <formula part='second'>CAST(SECOND(%2) AS STRING)</formula>
 
       <argument type='localstr' />
       <argument type='datetime' />
     </date-function>
     <date-function name='DATENAME' return-type='str'>
-      <formula part='week'>CAST(CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + ((7 + DAYOFWEEK(DATETRUNC('YEAR', %2)) - %3) % 7) ) / 7) AS INT) AS VARCHAR)</formula>
+      <formula part='week'>CAST(CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + ((7 + DAYOFWEEK(DATE_TRUNC('YEAR', %2)) - %3) % 7) ) / 7) AS INT) AS STRING)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
       <argument type='localstr' />
     </date-function>
     <date-function name='DATEPART' return-type='int'>
-      <formula part='year'>CAST(YEAR(%2) AS VARCHAR)</formula>
-      <formula part='quarter'>CAST(QUARTER(%2) AS VARCHAR)</formula>
-      <formula part='month'>CAST(MONTH(%2) AS VARCHAR)</formula>
-      <formula part='dayofyear'>CAST(DAYOFYEAR(%2) AS VARCHAR)</formula>
-      <formula part='day'>CAST(DAY(%2) AS VARCHAR)</formula>
+      <formula part='year'>YEAR(%2)</formula>
+      <formula part='quarter'>QUARTER(%2)</formula>
+      <formula part='month'>MONTH(%2)</formula>
+      <formula part='dayofyear'>DAYOFYEAR(%2)</formula>
+      <formula part='day'>DAY(%2)</formula>
       <formula part='weekday'>CAST((MOD(DAYOFWEEK(%2), 7) + 1) AS INT)</formula>
-      <formula part='week'>CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + DAYOFWEEK(DATETRUNC('YEAR', %2))) / 7) AS INT)</formula>
-      <formula part='hour'>CAST(HOUR(%2) AS VARCHAR)</formula>
-      <formula part='minute'>CAST(MINUTE(%2) AS VARCHAR)</formula>
-      <formula part='second'>CAST(SECOND(%2) AS VARCHAR)</formula>
+      <formula part='week'>CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + DAYOFWEEK(DATE_TRUNC('YEAR', %2))) / 7) AS INT)</formula>
+      <formula part='hour'>HOUR(%2)</formula>
+      <formula part='minute'>MINUTE(%2)</formula>
+      <formula part='second'>SECOND(%2)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
     </date-function>
     <date-function name='DATEPART' return-type='int'>
-      <formula part='year'>CAST(YEAR(%2) AS VARCHAR)</formula>
-      <formula part='quarter'>CAST(QUARTER(%2) AS VARCHAR)</formula>
-      <formula part='month'>CAST(MONTH(%2) AS VARCHAR)</formula>
-      <formula part='dayofyear'>CAST(DAYOFYEAR(%2) AS VARCHAR)</formula>
-      <formula part='day'>CAST(DAY(%2) AS VARCHAR)</formula>
+      <formula part='year'>YEAR(%2)</formula>
+      <formula part='quarter'>QUARTER(%2)</formula>
+      <formula part='month'>MONTH(%2)</formula>
+      <formula part='dayofyear'>DAYOFYEAR(%2)</formula>
+      <formula part='day'>DAY(%2)</formula>
       <formula part='weekday'>CAST((MOD(DAYOFWEEK(%2), 7) + 1) AS INT)</formula>
-      <formula part='week'>CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + DAYOFWEEK(DATETRUNC('YEAR', %2))) / 7) AS INT)</formula>
-      <formula part='hour'>CAST(HOUR(%2) AS VARCHAR)</formula>
-      <formula part='minute'>CAST(MINUTE(%2) AS VARCHAR)</formula>
-      <formula part='second'>CAST(SECOND(%2) AS VARCHAR)</formula>
+      <formula part='week'>CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + DAYOFWEEK(DATE_TRUNC('YEAR', %2))) / 7) AS INT)</formula>
+      <formula part='hour'>HOUR(%2)</formula>
+      <formula part='minute'>MINUTE(%2)</formula>
+      <formula part='second'>SECOND(%2)</formula>
       <argument type='localstr' />
       <argument type='int' />
     </date-function>
     <date-function name='DATEPART' return-type='int'>
-      <formula part='week'>CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + ((7 + DAYOFWEEK(DATETRUNC('YEAR', %2)) - %3) % 7) ) / 7) AS INT)</formula>
+      <formula part='week'>CAST(FLOOR((7 + DAYOFYEAR(%2) - 1 + ((7 + DAYOFWEEK(DATE_TRUNC('YEAR', %2)) - %3) % 7) ) / 7) AS INT)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
       <argument type='localstr' />
     </date-function>
     <date-function name='DATETRUNC' return-type='datetime'>
-      <formula>ToDateTime(DATETRUNC('%1', %2, 'MILLISECONDS'), 'yyyy-MM-dd HH:mm:ss')</formula>
-      <formula part='quarter'>ToDateTime(FROMDATETIME(CONCAT(CONCAT(YEAR(%2), CAST((CASE WHEN MONTH(%2)&lt;4 THEN '01' WHEN MONTH(%2)&lt;7 THEN '04' WHEN MONTH(%2)&lt;10 THEN '07' ELSE '10' END) AS VARCHAR), '-'), '-01 00:00:00', ''), 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd HH:mm:ss')</formula>
+      <formula>CAST(DATETRUNC('%1', %2, 'MILLISECONDS') AS TIMESTAMP)</formula>
+      <formula part='quarter'>CAST(FROMDATETIME(CONCAT(CONCAT(YEAR(%2), CAST((CASE WHEN MONTH(%2)&lt;4 THEN '01' WHEN MONTH(%2)&lt;7 THEN '04' WHEN MONTH(%2)&lt;10 THEN '07' ELSE '10' END) AS STRING), '-'), '-01 00:00:00', ''), 'yyyy-MM-dd HH:mm:ss') AS TIMESTAMP)</formula>
       <formula part='week'>(CASE WHEN DAYOFWEEK(%2) = 7 THEN CONCAT(TODATETIME(%2, 'yyyy-MM-dd'), ' 00:00:00.0') ELSE CAST(TIMESTAMPADD(DAY, -1, DATETRUNC('WEEK', %2)) AS TIMESTAMP) END)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
