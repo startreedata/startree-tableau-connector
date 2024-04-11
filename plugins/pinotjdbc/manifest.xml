@@ -17,7 +17,7 @@
   <vendor-information>
       <company name="StarTree"/>
       <support-link url="https://github.com/apache/pinot/issues"/>
-      <driver-download-link url="https://repo1.maven.org/maven2/org/apache/pinot/pinot-jdbc-client/0.11.0/pinot-jdbc-client-0.11.0-shaded.jar"/>
+      <driver-download-link url="https://repo1.maven.org/maven2/org/apache/pinot/pinot-jdbc-client/1.0.0/pinot-jdbc-client-1.0.0-hotfix-shaded.jar"/>
   </vendor-information>
   <connection-customization class="pinot" enabled="true" version="10.0">
     <vendor name="StarTree"/>
