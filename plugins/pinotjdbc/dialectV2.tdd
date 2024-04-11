@@ -331,7 +331,7 @@
       <argument type='real' />
     </function>
     <function group='cast' name='DATE' return-type='date'>
-      <formula>CAST(REPLACE(%1, 'null', '0') AS TIMESTAMP)</formula>
+      <formula>CAST(CONCAT(REPLACE(%1, 'null', '0'), '00:00:00', ' ') AS TIMESTAMP)</formula>
       <argument type='str' />
     </function>
     <function group='cast' name='DATE' return-type='date'>
@@ -995,6 +995,42 @@
     <aggregation value='AGG_AVG'/>
     <aggregation value='AGG_MIN'/>
     <aggregation value='AGG_MAX'/>
+    <aggregation value='AGG_STDEV'/>
+    <aggregation value='AGG_STDEVP'/>
+    <aggregation value='AGG_VAR'/>
+    <aggregation value='AGG_VARP'/>
+    <aggregation value='AGG_COVAR'/>
+    <aggregation value='AGG_COVARP'/>
+    <aggregation value='AGG_CORR'/>
+    <aggregation value='AGG_SUM_XSQR'/>
+    <aggregation value='AGG_COLLECT'/>
+    <aggregation value='AGG_YEAR'/>
+    <aggregation value='AGG_QTR'/>
+    <aggregation value='AGG_MONTH'/>
+    <aggregation value='AGG_DAY'/>
+    <aggregation value='AGG_WEEK'/>
+    <aggregation value='AGG_WEEKDAY'/>
+    <aggregation value='AGG_MONTHYEAR'/>
+    <aggregation value='AGG_MDY'/>
+    <aggregation value='AGG_HOUR'/>
+    <aggregation value='AGG_MINUTE'/>
+    <aggregation value='AGG_SECOND'/>
+    <aggregation value='AGG_ISO_YEAR'/>
+    <aggregation value='AGG_ISO_QTR'/>
+    <aggregation value='AGG_ISO_WEEK'/>
+    <aggregation value='AGG_ISO_WEEKDAY'/>
+    <aggregation value='TRUNC_YEAR'/>
+    <aggregation value='TRUNC_QTR'/>
+    <aggregation value='TRUNC_MONTH'/>
+    <aggregation value='TRUNC_DAY'/>
+    <aggregation value='TRUNC_WEEK'/>
+    <aggregation value='TRUNC_HOUR'/>
+    <aggregation value='TRUNC_MINUTE'/>
+    <aggregation value='TRUNC_SECOND'/>
+    <aggregation value='TRUNC_ISO_YEAR'/>
+    <aggregation value='TRUNC_ISO_QTR'/>
+    <aggregation value='TRUNC_ISO_WEEK'/>
+    <aggregation value='TRUNC_ISO_WEEKDAY'/>
   </supported-aggregations>
   <sql-format>
     <base-types>
