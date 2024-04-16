@@ -1,9 +1,16 @@
 name: Build and Sign Tableau Connector
 
+
 on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag for the release'
+        required: true
+        default: 'v1.0.0'
 
 jobs:
   build_and_sign:
