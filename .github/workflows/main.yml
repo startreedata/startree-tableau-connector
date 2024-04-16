@@ -41,16 +41,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
     - name: Build with Maven
-      run: mvn package
+      run: mvn clean package
     - name: List files
       run: |
-        ls -R
         find . -name "*.taco"
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: tableau-connector
-        path: target/*.taco
+        path: target/*.jar
 
   release:
     needs: build_and_sign
