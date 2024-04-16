@@ -71,15 +71,12 @@ jobs:
         release_name: Release ${{ github.run_id }}
         draft: false
         prerelease: false
-    - name: List files
-      run: |
-        ls -R
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./tableau-connector.taco
-        asset_name: tableau-connector.taco
+        asset_path: ./ai.startree.pinot-1.0.jar
+        asset_name: ai.startree.pinot-1.0.jar
         asset_content_type: application/octet-stream
