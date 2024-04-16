@@ -3,8 +3,17 @@ name: Build and Sign Tableau Connector
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+    paths-ignore:
+     - "test/**"
+      - "**.md"
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "test/**"
+      - "**.md"
   workflow_dispatch:
     inputs:
       tag:
@@ -24,7 +33,14 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
-
+    - uses: actions/cache@v3
+      env:
+        SEGMENT_DOWNLOAD_TIMEOUT_MINS: 10
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
     - name: Build with Maven
       run: mvn package
 
