@@ -42,14 +42,11 @@ jobs:
           ${{ runner.os }}-maven-
     - name: Build with Maven
       run: mvn clean package
-    - name: List files
-      run: |
-        find . -name "*.taco"
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: tableau-connector
-        path: target/*.jar
+        path: target/*.taco
 
   release:
     needs: build_and_sign
@@ -77,6 +74,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ai.startree.pinot-1.0.jar
-        asset_name: ai.startree.pinot-1.0.jar
+        asset_path: ./ai.startree.pinot-1.0.taco
+        asset_name: ai.startree.pinot-1.0.taco
         asset_content_type: application/octet-stream
