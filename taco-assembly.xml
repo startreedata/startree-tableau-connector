@@ -27,6 +27,10 @@
       <includes>
         <include>**/*</include>
       </includes>
-    </fileSet>
+      <excludes>
+                <exclude>META-INF/TE*</exclude>
+                <exclude>static/**</exclude>
+      </excludes>
+      </fileSet>
   </fileSets>
 </assembly>
