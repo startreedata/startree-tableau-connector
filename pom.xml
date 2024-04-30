@@ -19,12 +19,6 @@
   <version>1.0</version>
   <packaging>pom</packaging>
 
-<!--  <parent>-->
-<!--    <artifactId>startree-pinot-connectors</artifactId>-->
-<!--    <groupId>ai.startree.pinot</groupId>-->
-<!--    <version>${revision}</version>-->
-<!--  </parent>-->
-
   <artifactId>startree-tableau-connector</artifactId>
   <name>StarTree Tableau Connector</name>
   <groupId>ai.startree.pinot</groupId>
@@ -37,6 +31,10 @@
     <taco.signing.alias>alias</taco.signing.alias>
     <taco.signing.storepass>storepass</taco.signing.storepass>
     <taco.signing.keypass></taco.signing.keypass>
+    <taco.signing.tsa>http://timestamp.globalsign.com/tsa/r6advanced1</taco.signing.tsa>
+    <taco.signing.storetype>PKCS11</taco.signing.storetype>
+    <taco.signing.providerclass>sun.security.pkcs11.SunPKCS11<taco.signing.providerclass>
+    <taco.signing.providerarg>eToken.cfg</taco.signing.providerarg>
   </properties>
 
   <licenses>
@@ -81,10 +79,11 @@
           </execution>
         </executions>
         <configuration>
-          <keystore>${taco.signing.keystore}</keystore>
+          <tsa>${taco.signing.tsa}</tsa>
+          <storetype>${taco.signing.storetype}</storetype>
+          <providerClass>${taco.signing.providerclass}</providerClass>
+          <providerArg>${taco.signing.providerarg}</providerArg>
           <alias>${taco.signing.alias}</alias>
-          <storepass>${taco.signing.storepass}</storepass>
-          <keypass>${taco.signing.keypass}</keypass>
         </configuration>
       </plugin>
 
