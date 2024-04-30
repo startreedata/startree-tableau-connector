@@ -26,14 +26,14 @@
 
   <properties>
     <pinot.root>${basedir}</pinot.root>
-    <connector.assembly.name>${project.groupId}-${project.version}</connector.assembly.name>
+    <connector.assembly.name>${project.groupId}-${project.artifactId}-${project.version}</connector.assembly.name>
     <taco.signing.keystore>taco.jks</taco.signing.keystore>
     <taco.signing.alias>alias</taco.signing.alias>
     <taco.signing.storepass>storepass</taco.signing.storepass>
     <taco.signing.keypass></taco.signing.keypass>
     <taco.signing.tsa>http://timestamp.globalsign.com/tsa/r6advanced1</taco.signing.tsa>
     <taco.signing.storetype>PKCS11</taco.signing.storetype>
-    <taco.signing.providerclass>sun.security.pkcs11.SunPKCS11<taco.signing.providerclass>
+    <taco.signing.providerclass>sun.security.pkcs11.SunPKCS11</taco.signing.providerclass>
     <taco.signing.providerarg>eToken.cfg</taco.signing.providerarg>
   </properties>
 
@@ -64,7 +64,7 @@
               </descriptors>
             </configuration>
           </execution>
-         </executions>
+        </executions>
       </plugin>
 
       <plugin>
@@ -72,7 +72,7 @@
         <executions>
           <execution>
             <id>sign</id>
-            <phase>package</phase>
+            <phase>install</phase>
             <goals>
               <goal>sign</goal>
             </goals>
@@ -88,6 +88,29 @@
       </plugin>
 
       <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <finalName>${connector.assembly.name}</finalName>
+              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>3.1.0</version>
         <executions>
@@ -98,7 +121,8 @@
             </goals>
             <configuration>
               <target>
-                <move file="${project.build.directory}/${connector.assembly.name}.jar" tofile="${project.build.directory}/${connector.assembly.name}.taco" />
+                <move file="${project.build.directory}/${connector.assembly.name}.jar"
+                      tofile="${project.build.directory}/${connector.assembly.name}.taco"/>
               </target>
             </configuration>
           </execution>
@@ -113,9 +137,6 @@
           <licenseSets>
             <licenseSet>
               <header>${pinot.root}/HEADER</header>
-<!--              <headerDefinitions>-->
-<!--                <headerDefinition>${pinot.root}/headerdefinition.xml</headerDefinition>-->
-<!--              </headerDefinitions>-->
               <excludes>
                 <!-- Text and log files -->
                 <exclude>**/*.txt</exclude>

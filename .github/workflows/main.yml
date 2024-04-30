@@ -74,6 +74,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ai.startree.pinot-1.0.taco
-        asset_name: ai.startree.pinot-1.0.taco
+        asset_path: ./ai.startree.pinot-startree-tableau-connector-1.0.taco
+        asset_name: ai.startree.pinot-startree-tableau-connector-1.0.taco
         asset_content_type: application/octet-stream
