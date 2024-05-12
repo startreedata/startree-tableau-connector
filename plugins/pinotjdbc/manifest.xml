@@ -13,7 +13,7 @@
     specific language governing permissions and limitations under the License.
 
 -->
-<connector-plugin class='pinot' superclass='jdbc' plugin-version='1.0.0' name='Apache Pinot' version='18.1' min-version-tableau='2021.1'>
+<connector-plugin class='pinot' superclass='jdbc' plugin-version='1.0.1' name='Apache Pinot' version='18.1' min-version-tableau='2021.1'>
   <vendor-information>
       <company name="StarTree"/>
       <support-link url="https://github.com/apache/pinot/issues"/>
