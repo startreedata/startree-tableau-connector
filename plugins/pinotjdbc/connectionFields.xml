@@ -68,6 +68,6 @@
     </boolean-options>
   </field>
   
-  <field name="v-additional-properties" label="Additional Properties" value-type="textbox" category="advanced" placeholder="Optional - Enter additional properties as key=value pairs on separate lines" optional="true" />
+  <field name="v-additional-properties" label="Additional Properties" value-type="textbox" category="advanced" placeholder="Optional - Enter additional properties as key=value pairs on separate lines" default-value="enableNullHandling=true" optional="true" />
 
 </connection-fields>
