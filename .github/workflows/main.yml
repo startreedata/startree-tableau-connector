@@ -19,61 +19,99 @@ on:
         description: 'Tag for the release'
         required: true
         default: 'v1.0.0'
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
 
 jobs:
   build_and_sign:
     runs-on: ubuntu-latest
-
+    outputs:
+      VERSION: ${{ steps.fetch_latest_version.outputs.VERSION }}
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'adopt'
-    - uses: actions/cache@v3
-      env:
-        SEGMENT_DOWNLOAD_TIMEOUT_MINS: 10
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-    - name: Build with Maven
-      run: mvn clean package
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: tableau-connector
-        path: target/*.taco
+      - name: Fetch latest version
+        id: fetch_latest_version
+        run: |
+          LATEST_VERSION=$(curl -s 'https://repo.maven.apache.org/maven2/org/apache/pinot/pinot-jdbc-client/maven-metadata.xml' | grep -oPm1 "(?<=<latest>)[^<]+")
+          echo "Latest version: $LATEST_VERSION"
+          echo "VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+          echo "::set-output name=VERSION::$LATEST_VERSION"
+
+      - name: Check if release exists
+        id: check_release
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: releases } = await github.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const releaseExists = releases.some(release => release.tag_name === process.env.VERSION);
+            core.setOutput('exists', releaseExists);
+
+      - name: Stop if release exists
+        if: steps.check_release.outputs.exists == 'true'
+        run: |
+          echo "Release ${{ env.VERSION }} already exists. Exiting."
+          exit 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      - uses: actions/cache@v3
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 10
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Set project version
+        run: mvn versions:set -DnewVersion=${{ env.VERSION }}
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: tableau-connector
+          path: target/*.taco
 
   release:
     needs: build_and_sign
     runs-on: ubuntu-latest
-
+    if: needs.build_and_sign.result == 'success'
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: tableau-connector
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: tableau-connector
 
-    - name: Create release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.run_id }}
-        release_name: Release ${{ github.run_id }}
-        draft: false
-        prerelease: false
-    - name: Upload release asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ai.startree.pinot-startree-tableau-connector-1.0.taco
-        asset_name: ai.startree.pinot-startree-tableau-connector-1.0.taco
-        asset_content_type: application/octet-stream
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.build_and_sign.outputs.VERSION }}
+          release_name: Release ${{ needs.build_and_sign.outputs.VERSION }}
+          draft: false
+          prerelease: false
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ai.startree.pinot-startree-tableau-connector-${{ needs.build_and_sign.outputs.VERSION }}.taco
+          asset_name: ai.startree.pinot-startree-tableau-connector-${{ needs.build_and_sign.outputs.VERSION }}.taco
+          asset_content_type: application/octet-stream
