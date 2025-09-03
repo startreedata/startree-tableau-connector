@@ -30,10 +30,10 @@
         const password = attr[connectionHelper.attributePassword];
         // On Tableau Server, secure fields may not be exposed to JS; avoid
         // overwriting server-supplied credentials with empty values.
-        if (username) {
+        if (username !== undefined && username !== '') {
             props[USER_KEY] = username;
         }
-        if (password) {
+        if (password !== undefined && password !== '') {
             props[PASSWORD_KEY] = password;
         }
     }
