@@ -26,8 +26,16 @@
     props[CONTROLLER_TLS_KEY] = attr["v-controller-tls"];
 
     if (attr[connectionHelper.attributeAuthentication] === "auth-user-pass") {
-        props[USER_KEY] = attr[connectionHelper.attributeUsername];
-        props[PASSWORD_KEY] = attr[connectionHelper.attributePassword];
+        const username = attr[connectionHelper.attributeUsername];
+        const password = attr[connectionHelper.attributePassword];
+        // On Tableau Server, secure fields may not be exposed to JS; avoid
+        // overwriting server-supplied credentials with empty values.
+        if (username) {
+            props[USER_KEY] = username;
+        }
+        if (password) {
+            props[PASSWORD_KEY] = password;
+        }
     }
 
     // Parse additional properties passed through additional properties attribute
