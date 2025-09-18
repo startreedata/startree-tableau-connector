@@ -11,7 +11,7 @@
  * specific language governing permissions and limitations under the License.
  */
 (function dsbuilder(attr) {
-    const urlBuilder = "jdbc:pinot://" + attr[connectionHelper.attributeServer] + ":" + attr[connectionHelper.attributePort];
+    const urlBuilder = "jdbc:pinot://" + attr[connectionHelper.attributeServer] + ":" + attr[connectionHelper.attributePort] + "?enableNullHandling=true&useMultiStageEngine="+attr["v-multistage"];
 
     return [urlBuilder];
 })
