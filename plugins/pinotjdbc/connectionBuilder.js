@@ -26,7 +26,7 @@
         throw new Error("Port attribute is missing or null");
     }
 
-    // Apply default instead of throwing errors
+    // Apply default instead of throwing error
     if (multistage === undefined || multistage === null || multistage === "") {
         multistage = false; // default to false (or true, based on requirement)
     }
