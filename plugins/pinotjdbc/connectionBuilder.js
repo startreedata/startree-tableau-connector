@@ -11,7 +11,24 @@
  * specific language governing permissions and limitations under the License.
  */
 (function dsbuilder(attr) {
-    const urlBuilder = "jdbc:pinot://" + attr[connectionHelper.attributeServer] + ":" + attr[connectionHelper.attributePort] + "?enableNullHandling=true&useMultiStageEngine="+attr["v-multistage"];
+    if (!attr) {
+        throw new Error("Attributes object is null or undefined");
+    }
 
+    const server = attr[connectionHelper.attributeServer];
+    const port = attr[connectionHelper.attributePort];
+    const multistage = attr["v-multistage"];
+
+    if (!server) {
+        throw new Error("Server attribute is missing or null");
+    }
+    if (!port) {
+        throw new Error("Port attribute is missing or null");
+    }
+    if (multistage === undefined || multistage === null) {
+        throw new Error("Multistage attribute is missing or null");
+    }
+
+    const urlBuilder = "jdbc:pinot://" + attr[connectionHelper.attributeServer] + ":" + attr[connectionHelper.attributePort] + "?enableNullHandling=true&useMultiStageEngine=" + attr["v-multistage"];
     return [urlBuilder];
 })

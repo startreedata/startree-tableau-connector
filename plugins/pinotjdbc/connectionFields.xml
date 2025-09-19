@@ -48,7 +48,7 @@
 
   <!-- Advanced tab -->
   <!-- Added boolean options for multistage -->
-  <field name="v-multistage" label="Enable Multistage Engine" value-type="boolean" category="advanced" default-value="true" optional="false">
+  <field name="v-multistage" label="Enable Multistage Engine" value-type="boolean" category="advanced" default-value="false" optional="false">
     <boolean-options>
       <false-value value="false" />
       <true-value value="true" />
