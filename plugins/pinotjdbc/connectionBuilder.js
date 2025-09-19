@@ -17,7 +17,7 @@
 
     const server = attr[connectionHelper.attributeServer];
     const port = attr[connectionHelper.attributePort];
-    const multistage = attr["v-multistage"];
+    let multistage = attr["v-multistage"];
 
     if (!server) {
         throw new Error("Server attribute is missing or null");
@@ -25,10 +25,18 @@
     if (!port) {
         throw new Error("Port attribute is missing or null");
     }
-    if (multistage === undefined || multistage === null) {
-        throw new Error("Multistage attribute is missing or null");
+
+    // Apply default instead of throwing error
+    if (multistage === undefined || multistage === null || multistage === "") {
+        multistage = false; // default to false (or true, based on requirement)
     }
 
-    const urlBuilder = "jdbc:pinot://" + attr[connectionHelper.attributeServer] + ":" + attr[connectionHelper.attributePort] + "?enableNullHandling=true&useMultiStageEngine=" + attr["v-multistage"];
+
+    const urlBuilder =
+        "jdbc:pinot://" +
+        server + ":" + port +
+        "?enableNullHandling=true" +
+        "&useMultiStageEngine=" + multistage;
+
     return [urlBuilder];
 })
