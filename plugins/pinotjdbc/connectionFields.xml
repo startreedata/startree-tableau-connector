@@ -48,18 +48,18 @@
 
   <!-- Advanced tab -->
   <!-- Added boolean options for enable multistage -->
-  <field name="v-multistage" label="Enable Multistage Engine" value-type="boolean" category="advanced" default-value="false" optional="false">
-    <boolean-options>
-      <false-value value="false" />
-      <true-value value="true" />
-    </boolean-options>
-  </field>
-
   <field name="v-scheme" label="Scheme" value-type="selection" category="advanced" default-value="http" optional="true">
     <selection-group>
       <option value="http" label="HTTP"/>
       <option value="https" label="HTTPS"/>
     </selection-group>
+  </field>
+
+  <field name="v-multistage" label="Enable Multistage Engine" value-type="boolean" category="advanced" default-value="false" optional="false">
+    <boolean-options>
+      <false-value value="false" />
+      <true-value value="true" />
+    </boolean-options>
   </field>
   
   <field name="v-controller-tls" label="Enable TLS for Controller" value-type="boolean" category="advanced" default-value="false" optional="true">
