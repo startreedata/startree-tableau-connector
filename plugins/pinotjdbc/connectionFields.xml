@@ -47,6 +47,14 @@
   <field name="v-tenant" label="Tenant" value-type="string" category="general" default-value="DefaultTenant" placeholder="Enter tenant name" />
 
   <!-- Advanced tab -->
+  <!-- Added boolean options for enable multistage -->
+  <field name="v-multistage" label="Enable Multistage Engine" value-type="boolean" category="advanced" default-value="false" optional="false">
+    <boolean-options>
+      <false-value value="false" />
+      <true-value value="true" />
+    </boolean-options>
+  </field>
+
   <field name="v-scheme" label="Scheme" value-type="selection" category="advanced" default-value="http" optional="true">
     <selection-group>
       <option value="http" label="HTTP"/>
