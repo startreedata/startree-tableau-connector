@@ -39,6 +39,55 @@ We are working on making this connector available in the Tableau Exchange. For n
 
 ![Fetch data from Pinot](plugins/pinotjdbc/static/img/tableau_tables_ui.png?raw=true "Fetch data from Pinot")
 
+## Testing
+- Prerequisites:
+  - **Tableau Desktop (licensed)** and **tabquerytool** installed
+  - **Connector SDK/TDVT** cloned and set up (`tdvt-2.6.11`)
+  - **Driver JARs** in `~/Library/Tableau/Drivers/`:
+    - `async-http-client-2.12.3.jar`
+    - `calcite-core-1.30.0.jar`
+    - `pinot-jdbc-client-1.0.0-hotfix-shaded.jar`
+  - Set mac path to `tabquerytool` in `test/config/tdvt/tdvt.ini`
+  - System timezone set to UTC
+
+- Start Pinot and load test data:
+```bash
+export PINOT_PATH=/path/to/pinot/build
+export SERVER_LOGS_PATH=$PWD/logs
+./start_pinot.sh
+(cd schema && ./putdata.sh)
+```
+
+- Build and install the connector for TDVT:
+```bash
+mvn package
+mkdir -p ~/Documents/My\ Tableau\ Repository/Connectors
+cp target/ai.startree.pinot-startree-tableau-connector-1.0.taco ~/Documents/My\ Tableau\ Repository/Connectors/
+```
+
+- Generate TDS files pointing to your Pinot host:
+```bash
+python3 make_tds.py cast_calcs.pinotdb.tds.template localhost > tds/cast_calcs.pinotdb.tds
+python3 make_tds.py Staples.pinotdb.tds.template    localhost > tds/Staples.pinotdb.tds
+```
+
+- Run TDVT:
+```bash
+python3 -m tdvt.tdvt run pinotdb --generate --config config/tdvt/tdvt.ini
+```
+
+- Results:
+  - **CSV**: `test_results_combined.csv` (in the working directory)
+
+- Optional (V2 query engine):
+  - Replace `plugins/pinotjdbc/dialect.tdd` with `plugins/pinotjdbc/dialectV2.tdd`
+  - Add `&useMultistageEngine=true` to the JDBC URL in `plugins/pinotjdbc/connectionBuilder.js`
+  - Re-run the same TDVT command
+
+- Note:
+  - Desktop signature verification flag is not needed for TDVT runs (it uses `tabquerytool`).
+
+
 ## Signing the TACO file
 
 Maven is configured to sign the `.taco` file during the package stage.
