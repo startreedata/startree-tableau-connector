@@ -9,7 +9,8 @@
     - Follow _Setup_ section [here](https://tableau.github.io/connector-plugin-sdk/docs/tdvt), skipping steps 3 & 5
 
 ## 2. Start Pinot and populate with the test data
-- Set machine timezone to UTC. Without this almost all time based tests will fail
+- Set machine timezone to UTC. Without this almost all time based tests will fail.
+    - sudo systemsetup -settimezone GMT
 - Set the PINOT_PATH environment variable to your pinot build directory, something like ~/projects/startree/pinot/build
 - Start the Pinot Servers
 	- start and stop_pinot.sh scripts are included
@@ -50,10 +51,9 @@
 
 | Metric          | V1 Query Engine | V2 Query Engine |
 |-----------------|-----------------|-----------------|
-| Test Count      | 865             | 863             |
-| Passed tests    | 810             | 754             |
-| Failed tests    | 55              | 109             |
-| Tests run       | 865             | 863             |
+| Test Count      | 863             | 863             |
+| Passed tests    | 781             | 781             |
+| Failed tests    | 82              | 82              |
+| Tests run       | 863             | 863             |
 | Disabled tests  | 0               | 0               |
 | Skipped tests   | 0               | 0               |
-
