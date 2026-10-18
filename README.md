@@ -39,6 +39,10 @@ We are working on making this connector available in the Tableau Exchange. For n
 
 ![Fetch data from Pinot](plugins/pinotjdbc/static/img/tableau_tables_ui.png?raw=true "Fetch data from Pinot")
 
+## Testing
+
+See the [Tableau Connector Testing Quick Start Guide](README-tdvt-tests.md) for licensed Tableau and TDVT setup, Pinot test data, connector installation, and V1/V2 engine testing.
+
 ## Signing the TACO file
 
 Maven is configured to sign the `.taco` file during the package stage.
