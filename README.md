@@ -45,19 +45,11 @@ See the [Tableau Connector Testing Quick Start Guide](README-tdvt-tests.md) for 
 
 ## Signing the TACO file
 
-Maven is configured to sign the `.taco` file during the package stage.
+Use `mvn clean package` with JDK 17 to build an unsigned `.taco` in `target/`.
+The GitHub release workflow also uses this packaging step.
 
-Signing requires the following maven properties
-* taco.signing.keystore - The path to the `.jks` file containing the code-signing certificate (defaults to `taco.jks`)
-    * NOTE: the `taco.jks` in this directory is just a placeholder. It DOES NOT contain a valid certificate and must be replaced with a valid `.jks` file when actually signing the `.taco` for distribution
-* taco.signing.alias - The alias for the keystore entry that contains the private key needed to generate the signature (defaults to `alias`)
-* taco.signing.storepass - The password for the keystore (defaults to `storepass`)
-* taco.signing.keypass - The password for the keystore entry (defaults to empty)
-
-For example, to build a signed `.taco` file
-* `mvn package -Dtaco.signing.keystore=taco.jks -Dtaco.signing.alias=pinotkeyalias -Dtaco.signing.storepass=tacostorepass -Dtaco.signing.keypass=tacokeypass`
-
-To automate the building/signing of the `.taco` secrets could be used along with a github action to run the build with the properties configured from values stored in the secrets.
+The POM binds the Maven JAR Signer to the `install` phase. Use `package` for local builds and TDVT.
+Signing for distribution requires a separately configured code-signing provider.
 
 ### References
 
